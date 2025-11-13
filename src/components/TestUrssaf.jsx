@@ -3,12 +3,12 @@ import Engine, { formatValue } from "publicodes";
 import { useState } from "react";
 
 function TestUrssaf() {
-  const [hours, setHours] = useState();
-  const [taux, setTaux] = useState();
-  const [brut, setBrut] = useState();
-  const [net, setNet] = useState();
-  const [cotis, setCotis] = useState();
-  const [prime, setPrime] = useState();
+  const [hours, setHours] = useState("");
+  const [taux, setTaux] = useState("");
+  const [brut, setBrut] = useState("");
+  const [net, setNet] = useState("");
+  const [cotis, setCotis] = useState("");
+  const [prime, setPrime] = useState("");
 
   const handleNumberInput = (setter) => (e) => {
     // Autorise uniquement chiffres + virgule ou point
@@ -22,7 +22,7 @@ function TestUrssaf() {
     const brutValue = `${taux * hours} €/mois`;
     const primeValue = `${prime} €/mois`;
     setBrut(brutValue); // le brut à calculer en €/mois
-    console.log("Son brut est de ", brut);
+    console.log("Son brut est de ", brutValue);
     const engine = new Engine(rules);
     setNet(
       engine
@@ -36,19 +36,11 @@ function TestUrssaf() {
           "salarié . convention collective": "'HCR'",
           "établissement . commune . code postal": "31000",
           "établissement . taux ATMP": "1.77 %",
-          //Pas sur de celui ci dessous:
-          "salarié . régimes spécifiques . taux réduits . réduction de taux . cotisations maladie employeur taux":
-            "2.12",
           "entreprise . salariés . effectif . seuil . moins de 11": "oui",
         })
         .evaluate("salarié . rémunération . net . à payer avant impôt")
     );
     setCotis(engine.evaluate("salarié . coût total employeur"));
-    console.log(
-      "Salarié rémunération brut",
-      engine.evaluate("salarié . rémunération . brut")
-    );
-    console.log(engine.evaluate("salarié . coût total employeur"));
   };
 
   return (
@@ -86,7 +78,7 @@ function TestUrssaf() {
         />
         <button
           onClick={handleClick}
-          className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+          className="mt-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 hover:cursor-grab"
         >
           Simuler
         </button>
